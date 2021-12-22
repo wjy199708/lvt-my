@@ -1,6 +1,6 @@
 # lvt-my
 ## Implementation of Lite Vision Transformer with Enhanced Self-Attention with my own coding
-:blush:  :sleeping:
+:imp: :blush:  :sleeping: :blue_heart: :sweat_smile: :blue_heart: :yum: :sunglass: :imp:
 ###  Status : coding & unfinished
 - ## "lvt" overall structure diagram
 <img src='./image/lvt.png'  />
