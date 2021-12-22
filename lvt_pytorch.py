@@ -1,10 +1,12 @@
 import torch
 import torch.nn as nn
+import einops as eops
 
 
 class CSA_Trans(nn.Module):
     def __init__(self) -> None:
         super(CSA_Trans, self).__init__()
+        self.ln_norm = nn.LayerNorm()
 
     def forward(self, x):
         """
@@ -12,6 +14,7 @@ class CSA_Trans(nn.Module):
             x: image feature from previous
 
         """
+
         pass
 
 
