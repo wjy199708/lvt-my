@@ -17,7 +17,7 @@ class CSA_Trans(nn.Module):
 
 class ASA(nn.Module):
     def __init__(self) -> None:
-        super().__init__()
+        super(ASA, self).__init__()
 
     def forward(self):
         pass
@@ -25,7 +25,7 @@ class ASA(nn.Module):
 
 class LVT(nn.Module):
     def __init__(self) -> None:
-        super().__init__()
+        super(LVT, self).__init__()
 
     def forward(self, x):
         pass
