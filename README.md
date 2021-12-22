@@ -6,4 +6,4 @@
 <img src='./image/lvt.png'  />
 
 - ## "ASA" module structure diagram
-<img src='./image/ASA_Module.png'  />
+<img src='./image/ASA_Module.png' sytle="center" />
