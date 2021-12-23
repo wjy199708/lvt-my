@@ -1,7 +1,7 @@
 # lvt-my
 ## Implementation of Lite Vision Transformer with Enhanced Self-Attention with my own coding
 
-<div align=center>:imp: :blush:  :sleeping: :blue_heart: :sweat_smile: :blue_heart: :yum: :sunglasses: :imp:</div>
+<div align=center>:imp: :blush: :heart:  :sleeping: :blue_heart: :sweat_smile: :blue_heart: :yum: :heart: :sunglasses: :imp:</div>
 
 ### <div align=center>   Status : coding & unfinished</div>
 
