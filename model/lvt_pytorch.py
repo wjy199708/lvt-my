@@ -3,19 +3,23 @@ import torch.nn as nn
 import einops as eops
 
 
-class CSA_Trans(nn.Module):
-    def __init__(self) -> None:
-        super(CSA_Trans, self).__init__()
-        self.ln_norm = nn.LayerNorm()
+class CSA(nn.Module):
+    def __init__(self, pre_ch) -> None:
+        super(CSA, self).__init__()
+        self.ln_norm = nn.LayerNorm(pre_ch)
+        self.unflod = nn.Unfold(2, 2, stride=2)
 
     def forward(self, x):
         """
         args:
-            x: image feature from previous
+            x: image feature from previous (h,w,c)
+
 
         """
 
-        pass
+        _x = x
+        x = self.ln_norm(x)  # -> (B,H,W,C)
+        
 
 
 class ASA(nn.Module):
