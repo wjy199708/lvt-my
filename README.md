@@ -8,7 +8,7 @@
 - ## "lvt" overall structure diagram
 
 <div align=center>
-<img src='./image/lvt.png'  />
+<img src='./image/lvt.png' height="50%"  />
 </div>
 
 - ## "ASA" module structure diagram
