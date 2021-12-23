@@ -4,22 +4,22 @@ import einops as eops
 
 
 class CSA(nn.Module):
-    def __init__(self, pre_ch) -> None:
+    def __init__(self, pre_ch, unfold_kernel_size=2) -> None:
         super(CSA, self).__init__()
         self.ln_norm = nn.LayerNorm(pre_ch)
-        self.unflod = nn.Unfold(2, 2, stride=2)
+        self.unflod = nn.Unfold(unfold_kernel_size, stride=2)
 
     def forward(self, x):
         """
         args:
-            x: image feature from previous (h,w,c)
+            x: image feature from previous (b,c,h,w)
 
 
         """
-
+        b, c, h, w = x.shape
         _x = x
         x = self.ln_norm(x)  # -> (B,H,W,C)
-        
+        x = self.unflod(x)
 
 
 class ASA(nn.Module):
