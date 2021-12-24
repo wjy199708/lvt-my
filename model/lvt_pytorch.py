@@ -25,8 +25,6 @@ class CSA(nn.Module):
         """
         args:
             x: image feature from previous (b,c,h,w)
-
-
         """
         b, c, h, w = x.shape
         _x = x
@@ -46,15 +44,16 @@ class CSA(nn.Module):
                       param_v).reshape(b, -1, self.kernel_size**2,
                                        self.out_ch).permute(0, 3, 2, 1)
         x = x.reshape(b, self.out_ch * self.kernel_size**2, -1)
-        print('x===', x.shape,
-              b * self.out_ch * self.kernel_size**2 * x.shape[-1],
-              b * h * w * self.out_ch)
         x = F.fold(x,
                    output_size=(h, w),
                    kernel_size=self.kernel_size,
                    stride=2)
 
-        x = x.repeat(3) + _x
+        x = x + eops.repeat(_x, 'b c h w -> b (repeat c) h w', repeat=3)
+        _x2 = x
+        # "LN  +  MLP  +  Residual"  computing
+        x = nn.LayerNorm([x.shape[1], x.shape[2], x.shape[3]])(x)
+
         return x
 
     def _unfold(self, x):
@@ -109,6 +108,32 @@ class Downsample(nn.Module):
         x = x.permute(0, 3, 1, 2)
         x = self.proj(x)  # B, C, H, W
         x = x.permute(0, 2, 3, 1)
+        return x
+
+
+class Mlp(nn.Module):
+    "Implementation of MLP"
+
+    def __init__(self,
+                 in_features,
+                 hidden_features=None,
+                 out_features=None,
+                 act_layer=nn.GELU,
+                 drop=0.):
+        super().__init__()
+        out_features = out_features or in_features
+        hidden_features = hidden_features or in_features
+        self.fc1 = nn.Linear(in_features, hidden_features)
+        self.act = act_layer()
+        self.fc2 = nn.Linear(hidden_features, out_features)
+        self.drop = nn.Dropout(drop)
+
+    def forward(self, x):
+        x = self.fc1(x)
+        x = self.act(x)
+        x = self.drop(x)
+        x = self.fc2(x)
+        x = self.drop(x)
         return x
 
 
