@@ -21,6 +21,8 @@ class CSA(nn.Module):
                              stride=1)
         self.out_ch = self.BMM.out_channels
 
+        self.MLP = Mlp(self.out_ch, drop=.5)
+
     def forward(self, x):
         """
         args:
@@ -54,6 +56,12 @@ class CSA(nn.Module):
         _x2 = x
         # "LN  +  MLP  +  Residual"  computing
         x = nn.LayerNorm([x.shape[1], x.shape[2], x.shape[3]])(x)
+        x = x.permute(0, 2, 3, 1)
+
+        # MLP feature learning
+        x = self.MLP(x).permute(0, 3, 1, 2)
+
+        x += _x2
 
         return x
 
@@ -98,6 +106,7 @@ class Downsample(nn.Module):
     """
     Image to Patch Embedding, downsampling between stage1 and stage2
     """
+
     def __init__(self, in_embed_dim, out_embed_dim, patch_size, kernel_size):
         super().__init__()
         self.proj = nn.Conv2d(in_embed_dim,
@@ -139,8 +148,14 @@ class Mlp(nn.Module):
 
 
 if __name__ == "__main__":
+    import time
+
+    start = time.time()
     x = torch.rand(1, 3, 1024, 1024)
     # print(x.shape)
     model = CSA(3)
+    end = time.time()
+
+    print("computing loss time : ", (end - start))
 
     print(model(x).shape)
