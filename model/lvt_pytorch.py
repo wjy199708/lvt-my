@@ -53,6 +53,7 @@ class CSA(nn.Module):
         _x2 = x
         # "LN  +  MLP  +  Residual"  computing
         x = nn.LayerNorm([x.shape[1], x.shape[2], x.shape[3]])(x)
+        
 
         return x
 
