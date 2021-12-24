@@ -49,11 +49,11 @@ class CSA(nn.Module):
                    kernel_size=self.kernel_size,
                    stride=2)
 
-        x = x + eops.repeat(_x, 'b c h w -> b (repeat c) h w', repeat=3)
+        x = x + eops.repeat(
+            _x, 'b c h w -> b (repeat c) h w', repeat=self.in_ch)
         _x2 = x
         # "LN  +  MLP  +  Residual"  computing
         x = nn.LayerNorm([x.shape[1], x.shape[2], x.shape[3]])(x)
-        
 
         return x
 
